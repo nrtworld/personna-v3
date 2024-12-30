@@ -7,11 +7,11 @@
 ⚪ En attente de validation/test
 
 ## 1. Configuration initiale 🔴
-- [ ] Création projet Angular
-- [ ] Installation des dépendances
-- [ ] Configuration Firebase
-- [ ] Mise en place tests Jasmine/Karma
-- [ ] Configuration routing de base
+- [x] Création projet Angular
+- [x] Installation des dépendances
+- [x] Configuration Firebase
+- [x] Mise en place tests Jasmine/Karma
+- [x] Configuration routing de base
 
 ## 2. Authentication 🔴
 
@@ -141,7 +141,10 @@
 
 ### [Date] - Sprint 1
 - Initialisation du projet
-- À faire: Configuration initiale
+- Configuration Firebase complétée
+- Structure de base de données définie
+- Configuration des tests mise en place
+- Routing de base configuré avec lazy loading pour les personnages
 
 ### Problèmes rencontrés
 - Aucun pour le moment
