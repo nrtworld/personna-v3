@@ -11,8 +11,8 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { 
     path: 'dashboard', 
-    component: DashboardComponent,
-    canActivate: [AuthGuard]
+    loadComponent: () => import('./features/dashboard/dashboard.component')
+      .then(m => m.DashboardComponent)
   },
   { 
     path: 'character',

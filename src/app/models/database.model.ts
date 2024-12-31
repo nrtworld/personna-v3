@@ -4,15 +4,19 @@ export interface User {
   characters?: string[]; // IDs des personnages
 }
 
-export interface Character {
-  id?: string;
+export interface BaseCharacter {
   userId: string;
   game: string;
   name: string;
   photo?: string;
   xp: number;
-  // autres propriétés selon le jeu...
 }
+
+export interface Character extends BaseCharacter {
+  id: string;
+}
+
+export type NewCharacter = Omit<Character, 'id'>;
 
 export interface GameReference {
   id: string;

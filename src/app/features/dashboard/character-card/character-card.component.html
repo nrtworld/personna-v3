@@ -1,0 +1,26 @@
+<div class="character-card">
+  <div class="character-photo">
+    <img [src]="character.photo || 'assets/default-avatar.png'" [alt]="character.name">
+  </div>
+  
+  <div class="character-info">
+    <h3>{{ character.name }}</h3>
+    <p class="game-name">{{ character.game }}</p>
+    <p class="xp">XP: {{ character.xp }}</p>
+  </div>
+
+  <div class="card-actions">
+    <button 
+      [routerLink]="['/characters', character.id, 'edit']"
+      class="edit-button"
+    >
+      Éditer
+    </button>
+    <button 
+      (click)="confirmDelete()"
+      class="delete-button"
+    >
+      Supprimer
+    </button>
+  </div>
+</div> 

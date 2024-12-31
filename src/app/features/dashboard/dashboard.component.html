@@ -1,0 +1,41 @@
+<div class="dashboard-container">
+  <div class="filters">
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm"
+      (input)="filterCharacters()"
+      placeholder="Rechercher un personnage..."
+      class="search-input"
+    >
+    
+    <select 
+      [(ngModel)]="selectedGame"
+      (change)="filterCharacters()"
+      class="game-select"
+    >
+      <option value="">Tous les jeux</option>
+      <option value="dnd">D&D</option>
+      <option value="pathfinder">Pathfinder</option>
+    </select>
+
+    <button 
+      (click)="sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'; filterCharacters()"
+      class="sort-button"
+    >
+      Trier {{ sortOrder === 'asc' ? '↑' : '↓' }}
+    </button>
+  </div>
+
+  <div class="characters-grid">
+    <ng-container *ngFor="let char of characters$ | async">
+      <app-character-card
+        [character]="char"
+        (deleteCharacter)="char.id && deleteCharacter(char.id)"
+      ></app-character-card>
+    </ng-container>
+  </div>
+
+  <button routerLink="/characters/new" class="create-button">
+    Créer un personnage
+  </button>
+</div> 
