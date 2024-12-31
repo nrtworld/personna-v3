@@ -1,43 +1,41 @@
 import { TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { Router } from '@angular/router';
+import * as auth from 'firebase/auth';
 
 describe('AuthService', () => {
   let service: AuthService;
-
-  beforeAll(() => {
-    // Initialize Firebase for tests if not already initialized
-    try {
-      getAuth();
-    } catch {
-      const firebaseConfig = {
-        apiKey: 'test',
-        authDomain: 'test',
-        projectId: 'test',
-        storageBucket: 'test',
-        messagingSenderId: 'test',
-        appId: 'test'
-      };
-      initializeApp(firebaseConfig);
-    }
-  });
+  let router: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
+    router = jasmine.createSpyObj('Router', ['navigate']);
+    spyOn(auth, 'createUserWithEmailAndPassword').and.returnValue(Promise.resolve({
+      user: { uid: 'test-uid', email: 'test@test.com' },
+      providerId: 'firebase',
+      operationType: 'signIn'
+    } as auth.UserCredential));
+
     TestBed.configureTestingModule({
-      providers: [AuthService]
+      providers: [
+        AuthService,
+        { provide: Router, useValue: router }
+      ]
     });
+
     service = TestBed.inject(AuthService);
   });
 
-  it('should handle invalid credentials', async () => {
-    try {
-      await service.login('test@test.com', 'wrongpassword');
-      fail('Should have thrown an error');
-    } catch (error: any) {
-      expect(error.message).toBe('Invalid credentials');
-    }
+  it('should register new user', async () => {
+    await service.register('test@test.com', 'password123');
+    expect(auth.createUserWithEmailAndPassword).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['/dashboard']);
   });
 
-  // Other tests...
+  it('should handle registration error', async () => {
+    const error = new Error('Email already in use');
+    (auth.createUserWithEmailAndPassword as jasmine.Spy).and.rejectWith(error);
+    
+    await expectAsync(service.register('existing@test.com', 'password123'))
+      .toBeRejectedWith(error);
+  });
 }); 

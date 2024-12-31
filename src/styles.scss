@@ -43,4 +43,24 @@
       }
     }
   }
+  
+  .register-link, .login-link {
+    margin-top: 1rem;
+    text-align: center;
+    
+    a {
+      color: #007bff;
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  .error-message {
+    color: #dc3545;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
 }

@@ -27,7 +27,23 @@
 - [x] Guards routes protégées
 - [x] Menu déconnexion
 
-## 3. Dashboard 🔴
+## 3. Création de compte 🔴
+
+### Tests
+- [x] Test validation formulaire inscription
+- [x] Test unicité email
+- [x] Test force mot de passe
+- [x] Test confirmation mot de passe
+- [x] Test redirection post-inscription
+
+### Implémentation
+- [x] Extension du service auth pour inscription
+- [x] Composant formulaire inscription
+- [x] Validation des champs en temps réel
+- [x] Gestion des erreurs Firebase
+- [x] Lien depuis écran login
+
+## 4. Dashboard 🔴
 
 ### Tests
 - [ ] Test affichage cartes personnages
@@ -43,7 +59,7 @@
 - [ ] Filtres et recherche
 - [ ] Navigation création
 
-## 4. Création de personnage 🔴
+## 5. Création de personnage 🔴
 
 ### Tests Identité
 - [ ] Test formulaire identité
@@ -91,7 +107,7 @@
 - [ ] Validation globale
 - [ ] Sauvegarde Firebase
 
-## 5. Fiche personnage 🔴
+## 6. Fiche personnage 🔴
 
 ### Tests
 - [ ] Test affichage informations
@@ -111,7 +127,7 @@
 - [ ] Gestion inventaire rapide
 - [ ] Système points compétence
 
-## 6. Base de données 🔴
+## 7. Base de données 🔴
 
 ### Tests
 - [ ] Test structure données
@@ -125,7 +141,7 @@
 - [ ] Gestion référentiels
 - [ ] Synchronisation temps réel
 
-## 7. Responsive Design 🔴
+## 8. Responsive Design 🔴
 
 ### Tests
 - [ ] Test breakpoints

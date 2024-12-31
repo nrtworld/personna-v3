@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -30,11 +31,14 @@ import { CommonModule } from '@angular/common';
         <div *ngIf="error" class="error-message">
           {{error}}
         </div>
+        <div class="register-link">
+          <a routerLink="/register">Pas encore de compte ? S'inscrire</a>
+        </div>
       </form>
     </div>
   `,
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule]
 })
 export class LoginComponent {
   loginForm: FormGroup;

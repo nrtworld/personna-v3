@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword, 
   signOut, 
   onAuthStateChanged,
+  createUserWithEmailAndPassword,
   Auth,
   User 
 } from 'firebase/auth';
@@ -59,5 +60,17 @@ export class AuthService {
 
   getCurrentUser(): User | null {
     return this.auth.currentUser;
+  }
+
+  async register(email: string, password: string): Promise<void> {
+    try {
+      await createUserWithEmailAndPassword(this.auth, email, password);
+      await this.router.navigate(['/dashboard']);
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        throw new Error('Cet email est déjà utilisé');
+      }
+      throw error;
+    }
   }
 } 
