@@ -46,18 +46,18 @@
 ## 4. Dashboard 🔴
 
 ### Tests
-- [ ] Test affichage cartes personnages
-- [ ] Test filtres (jeux/alphabétique)
-- [ ] Test recherche
-- [ ] Test suppression
-- [ ] Test navigation création/édition
+- [x] Test affichage cartes personnages
+- [x] Test filtres (jeux/alphabétique)
+- [x] Test recherche
+- [x] Test suppression
+- [x] Test navigation création/édition
 
 ### Implémentation
-- [ ] Composant dashboard
-- [ ] Composant carte personnage
-- [ ] Service gestion personnages
-- [ ] Filtres et recherche
-- [ ] Navigation création
+- [x] Composant dashboard
+- [x] Composant carte personnage
+- [x] Service gestion personnages
+- [x] Filtres et recherche
+- [x] Navigation création
 
 ## 5. Création de personnage 🔴
 
