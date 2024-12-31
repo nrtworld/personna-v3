@@ -7,8 +7,9 @@ import {
   Auth,
   User 
 } from 'firebase/auth';
+import { getApp } from 'firebase/app';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,11 @@ export class AuthService {
   private userSubject: BehaviorSubject<User | null>;
   public user$: Observable<User | null>;
 
-  constructor(private router: Router) {
-    this.auth = getAuth();
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.auth = getAuth(getApp());
     this.userSubject = new BehaviorSubject<User | null>(null);
     this.user$ = this.userSubject.asObservable();
 
@@ -31,7 +35,10 @@ export class AuthService {
   async login(email: string, password: string): Promise<void> {
     try {
       await signInWithEmailAndPassword(this.auth, email, password);
-      this.router.navigate(['/dashboard']);
+      
+      // Récupérer l'URL de retour depuis les query params
+      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+      await this.router.navigate([returnUrl]);
     } catch (error) {
       throw error;
     }
@@ -40,7 +47,7 @@ export class AuthService {
   async logout(): Promise<void> {
     try {
       await signOut(this.auth);
-      this.router.navigate(['/login']);
+      await this.router.navigate(['/login']);
     } catch (error) {
       throw error;
     }
@@ -48,5 +55,9 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return this.auth.currentUser !== null;
+  }
+
+  getCurrentUser(): User | null {
+    return this.auth.currentUser;
   }
 } 

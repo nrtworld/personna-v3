@@ -24,8 +24,8 @@
 ### Implémentation
 - [x] Service d'authentification Firebase
 - [x] Composant login
-- [ ] Guards routes protégées
-- [ ] Menu déconnexion
+- [x] Guards routes protégées
+- [x] Menu déconnexion
 
 ## 3. Dashboard 🔴
 

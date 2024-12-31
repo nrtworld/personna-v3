@@ -1,48 +1,64 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 import { AuthGuard } from './auth.guard';
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { AuthService } from '../services/auth.service';
+import { BehaviorSubject } from 'rxjs';
+import { User } from 'firebase/auth';
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;
-
-  beforeAll(() => {
-    // Initialize Firebase for tests
-    const firebaseConfig = {
-      apiKey: 'test',
-      authDomain: 'test',
-      projectId: 'test',
-      storageBucket: 'test',
-      messagingSenderId: 'test',
-      appId: 'test'
-    };
-    initializeApp(firebaseConfig);
-  });
+  let authService: jasmine.SpyObj<AuthService>;
+  let router: Router;
+  let userSubject: BehaviorSubject<User | null>;
 
   beforeEach(() => {
+    userSubject = new BehaviorSubject<User | null>(null);
+    
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['isAuthenticated'], {
+      user$: userSubject.asObservable()
+    });
+
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      providers: [AuthGuard]
+      providers: [
+        AuthGuard,
+        { provide: AuthService, useValue: authServiceSpy }
+      ]
     });
+
     guard = TestBed.inject(AuthGuard);
+    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
+    router = TestBed.inject(Router);
   });
 
-  it('should redirect to login when not authenticated', async () => {
-    const auth = getAuth();
-    const result = await guard.canActivate();
-    expect(result).toBeFalsy();
+  it('should create', () => {
+    expect(guard).toBeTruthy();
   });
 
-  it('should allow access when authenticated', async () => {
-    const auth = getAuth();
-    // Mock authenticated user
-    Object.defineProperty(auth, 'currentUser', {
-      value: { uid: 'test-uid' },
-      configurable: true
+  it('should redirect to login when user is not authenticated', (done) => {
+    const routerSpy = spyOn(router, 'createUrlTree');
+    const mockRoute = {} as any;
+    const mockState = { url: '/protected' } as any;
+
+    guard.canActivate(mockRoute, mockState).subscribe(() => {
+      expect(routerSpy).toHaveBeenCalledWith(['/login'], {
+        queryParams: { returnUrl: '/protected' }
+      });
+      done();
     });
-    
-    const result = await guard.canActivate();
-    expect(result).toBeTruthy();
+  });
+
+  it('should allow access when user is authenticated', (done) => {
+    const mockUser = { uid: 'test-uid' } as User;
+    userSubject.next(mockUser);
+
+    const mockRoute = {} as any;
+    const mockState = { url: '/protected' } as any;
+
+    guard.canActivate(mockRoute, mockState).subscribe(result => {
+      expect(result).toBe(true);
+      done();
+    });
   });
 }); 

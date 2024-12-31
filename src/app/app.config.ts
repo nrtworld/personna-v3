@@ -1,9 +1,14 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { routes } from './app-routing.module';
+import { initializeApp } from 'firebase/app';
+import { environment } from '../environments/environment';
 
-import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+// Initialize Firebase
+const app = initializeApp(environment.firebase);
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay())]
+  providers: [
+    provideRouter(routes)
+  ]
 };
