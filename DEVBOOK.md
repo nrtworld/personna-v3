@@ -16,14 +16,14 @@
 ## 2. Authentication 🔴
 
 ### Tests
-- [ ] Test connexion utilisateur
-- [ ] Test déconnexion
-- [ ] Test persistance session
-- [ ] Test redirection si non authentifié
+- [x] Test connexion utilisateur
+- [x] Test déconnexion
+- [x] Test persistance session
+- [x] Test redirection si non authentifié
 
 ### Implémentation
-- [ ] Service d'authentification Firebase
-- [ ] Composant login
+- [x] Service d'authentification Firebase
+- [x] Composant login
 - [ ] Guards routes protégées
 - [ ] Menu déconnexion
 
