@@ -20,9 +20,17 @@ describe('CharacterCardComponent', () => {
     component.character = {
       id: '1',
       name: 'Test Character',
-      game: 'dnd',
-      userId: '123',
-      xp: 0
+      userId: 'test-user',
+      game: 'default',
+      xp: 0,
+      maxHp: 10,
+      currentHp: 10,
+      stats: {},
+      masteries: [],
+      skills: [],
+      traits: [],
+      inventory: { items: [], dices: [], currentWeight: 0 },
+      notes: []
     };
     fixture.detectChanges();
   });

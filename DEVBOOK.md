@@ -62,50 +62,61 @@
 ## 5. Création de personnage 🔴
 
 ### Tests Identité
-- [ ] Test formulaire identité
-- [ ] Test upload photo
-- [ ] Test validation données
+- [x] Test formulaire identité
+- [x] Test upload photo
+- [x] Test validation données
 
 ### Tests Statistiques
-- [ ] Test ajout/suppression stat
-- [ ] Test liaison référentiel
-- [ ] Test points attribution
+- [x] Test ajout/suppression stat
+- [x] Test liaison référentiel
+- [x] Test points attribution
 
 ### Tests Maîtrises
-- [ ] Test ajout/suppression maîtrise
-- [ ] Test liaison référentiel
-- [ ] Test points attribution
+- [x] Test ajout/suppression maîtrise
+- [x] Test liaison référentiel
+- [x] Test points attribution
 
 ### Tests Compétences
-- [ ] Test ajout/suppression compétence
-- [ ] Test liaison stats/maîtrises
-- [ ] Test points attribution
+- [x] Test ajout/suppression compétence
+- [x] Test liaison stats/maîtrises
+- [x] Test points attribution
 
 ### Tests Traits
-- [ ] Test ajout/suppression trait
-- [ ] Test liaison référentiel
+- [x] Test ajout/suppression trait
+- [x] Test liaison référentiel
 
 ### Tests Inventaire
-- [ ] Test ajout/suppression objet
-- [ ] Test modification quantité
-- [ ] Test ajout dés
-- [ ] Test description
+- [x] Test ajout/suppression objet
+- [x] Test modification quantité
+- [x] Test ajout dés
+- [x] Test description
 
 ### Tests Notes
-- [ ] Test ajout/suppression note
-- [ ] Test édition note
+- [x] Test ajout/suppression note
+- [x] Test édition note
+
+### Tests Validation
+- [x] Test validation identité
+- [x] Test validation stats
+- [x] Test validation maîtrises
+- [x] Test validation compétences
+- [x] Test validation traits
+- [x] Test validation inventaire
+- [x] Test navigation étapes
+- [x] Test sauvegarde personnage
+- [x] Test gestion erreurs
 
 ### Implémentation
-- [ ] Formulaire identité
-- [ ] Gestion upload photo
-- [ ] Composant statistiques
-- [ ] Composant maîtrises
-- [ ] Composant compétences
-- [ ] Composant traits
-- [ ] Composant inventaire
-- [ ] Composant notes
-- [ ] Validation globale
-- [ ] Sauvegarde Firebase
+- [x] Formulaire identité
+- [x] Gestion upload photo
+- [x] Composant statistiques
+- [x] Composant maîtrises
+- [x] Composant compétences
+- [x] Composant traits
+- [x] Composant inventaire
+- [x] Composant notes
+- [x] Validation globale
+- [x] Sauvegarde Firebase
 
 ## 6. Fiche personnage 🔴
 
@@ -130,16 +141,17 @@
 ## 7. Base de données 🔴
 
 ### Tests
-- [ ] Test structure données
-- [ ] Test CRUD personnages
-- [ ] Test CRUD inventaire
-- [ ] Test référentiels
+- [x] Test structure données
+- [x] Test CRUD personnages
+- [x] Test synchronisation temps réel
+- [x] Test CRUD inventaire
+- [x] Test référentiels
 
 ### Implémentation
-- [ ] Schéma Firebase
-- [ ] Services données
-- [ ] Gestion référentiels
-- [ ] Synchronisation temps réel
+- [x] Schéma Firebase
+- [x] Services données
+- [x] Gestion référentiels
+- [x] Synchronisation temps réel
 
 ## 8. Responsive Design 🔴
 

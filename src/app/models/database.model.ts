@@ -12,8 +12,22 @@ export interface BaseCharacter {
   xp: number;
 }
 
-export interface Character extends BaseCharacter {
+export interface Character {
   id: string;
+  userId: string;
+  game: string;
+  name: string;
+  photo?: string;
+  age?: number;
+  xp: number;
+  maxHp: number;
+  currentHp: number;
+  stats: Record<string, BaseStatistic>;
+  masteries: Mastery[];
+  skills: Skill[];
+  traits: CharacterTrait[];
+  inventory: InventoryState;
+  notes: Note[];
 }
 
 export type NewCharacter = Omit<Character, 'id'>;
@@ -46,4 +60,15 @@ export interface Skill {
 export interface CharacterTrait {
   name: string;
   description: string;
+}
+
+export interface InventoryState {
+  items: any[];
+  dices: any[];
+  currentWeight: number;
+}
+
+export interface Note {
+  title?: string;
+  content: string;
 } 

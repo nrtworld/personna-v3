@@ -1,0 +1,124 @@
+<div class="character-creation">
+  <div class="creation-header">
+    <h2>Création de personnage</h2>
+    <div class="steps-progress">
+      <div class="step-indicators">
+        <div 
+          *ngFor="let step of [1,2,3,4,5,6,7]" 
+          class="step-indicator"
+          [class.active]="currentStep === step"
+          [class.completed]="currentStep > step"
+        >
+          {{ step }}
+        </div>
+      </div>
+      <div class="progress">
+        <div 
+          class="progress-bar" 
+          [style.width.%]="(currentStep - 1) / (totalSteps - 1) * 100"
+        ></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="creation-content">
+    <div class="validation-errors" *ngIf="getCurrentErrors().length > 0">
+      <div class="alert alert-danger">
+        <ul>
+          <li *ngFor="let error of getCurrentErrors()">{{ error }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div [ngSwitch]="currentStep" class="step-content">
+      <!-- Étape 1: Identité -->
+      <app-identity-form
+        *ngSwitchCase="1"
+        [name]="characterState.name"
+        [age]="characterState.age"
+        [photo]="characterState.photo"
+        [maxHp]="characterState.maxHp"
+        [currentHp]="characterState.currentHp"
+        (formSubmit)="onIdentitySubmit($event)"
+      ></app-identity-form>
+
+      <!-- Étape 2: Statistiques -->
+      <app-stats-form
+        *ngSwitchCase="2"
+        [stats]="getStatValues(characterState.stats)"
+        (statsAllocated)="onStatsSubmit($event)"
+      ></app-stats-form>
+
+      <!-- Étape 3: Maîtrises -->
+      <app-masteries-form
+        *ngSwitchCase="3"
+        [masteries]="getMasteriesAsRecord()"
+        (masteriesAllocated)="onMasteriesSubmit($event)"
+      ></app-masteries-form>
+
+      <!-- Étape 4: Compétences -->
+      <app-skills-form
+        *ngSwitchCase="4"
+        [skills]="characterState.skills"
+        [stats]="getStatValues(characterState.stats)"
+        [masteries]="characterState.masteries"
+        (skillsAllocated)="onSkillsSubmit($event)"
+      ></app-skills-form>
+
+      <!-- Étape 5: Traits -->
+      <app-traits-form
+        *ngSwitchCase="5"
+        [traits]="characterState.traits"
+        (traitsSelected)="onTraitsSubmit($event)"
+      ></app-traits-form>
+
+      <!-- Étape 6: Inventaire -->
+      <app-inventory-form
+        *ngSwitchCase="6"
+        [inventory]="characterState.inventory"
+        (inventoryChange)="onInventorySubmit($event)"
+      ></app-inventory-form>
+
+      <!-- Étape 7: Notes -->
+      <app-notes-form
+        *ngSwitchCase="7"
+        [notes]="characterState.notes"
+        (notesChange)="onNotesSubmit($event)"
+      ></app-notes-form>
+    </div>
+  </div>
+
+  <div class="creation-footer">
+    <button 
+      class="btn btn-outline-secondary"
+      (click)="previousStep()"
+      [disabled]="currentStep === 1"
+    >
+      Précédent
+    </button>
+
+    <div class="step-info">
+      Étape {{ currentStep }}/{{ totalSteps }}
+    </div>
+
+    <ng-container *ngIf="currentStep < totalSteps; else finalStep">
+      <button 
+        class="btn btn-primary"
+        (click)="nextStep()"
+        [disabled]="!canProceed()"
+      >
+        Suivant
+      </button>
+    </ng-container>
+
+    <ng-template #finalStep>
+      <button 
+        class="btn btn-success"
+        (click)="saveCharacter()"
+        [disabled]="!isValid()"
+      >
+        Créer le personnage
+      </button>
+    </ng-template>
+  </div>
+</div> 

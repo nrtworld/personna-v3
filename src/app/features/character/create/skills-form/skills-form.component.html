@@ -1,0 +1,37 @@
+<div class="skills-form">
+  <div class="points-remaining">
+    Points de compétence restants: {{ remainingPoints }}
+  </div>
+
+  <div class="skills-list">
+    <div *ngFor="let skillWithPoints of allocatedSkills" class="skill-item">
+      <div class="skill-info">
+        <h4>{{ skillWithPoints.skill.name }}</h4>
+        <p class="description">{{ skillWithPoints.skill.description }}</p>
+        <p class="related-stats">
+          Liée à: {{ skillWithPoints.skill.relatedStats.join(', ') }}
+        </p>
+      </div>
+
+      <div class="skill-controls">
+        <button 
+          (click)="decrementSkill(skillWithPoints)"
+          [disabled]="skillWithPoints.points <= 0"
+          class="btn btn-outline-secondary"
+        >-</button>
+
+        <div class="points-display">
+          <span class="points">{{ skillWithPoints.points }}</span>
+          <span class="bonus">(+{{ skillWithPoints.totalBonus }})</span>
+          <span class="total">={{ getTotalValue(skillWithPoints) }}</span>
+        </div>
+
+        <button 
+          (click)="incrementSkill(skillWithPoints)"
+          [disabled]="remainingPoints <= 0 || skillWithPoints.points >= maxPointsPerSkill"
+          class="btn btn-outline-secondary"
+        >+</button>
+      </div>
+    </div>
+  </div>
+</div> 

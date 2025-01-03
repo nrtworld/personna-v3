@@ -30,12 +30,16 @@
     <ng-container *ngFor="let char of characters$ | async">
       <app-character-card
         [character]="char"
-        (deleteCharacter)="char.id && deleteCharacter(char.id)"
+        (click)="onCharacterClick(char)"
+        (deleteCharacter)="onCharacterDelete(char)"
       ></app-character-card>
     </ng-container>
   </div>
 
-  <button routerLink="/characters/new" class="create-button">
-    Créer un personnage
+  <button 
+    [routerLink]="['/character/create']" 
+    class="create-button"
+  >
+    <i class="fas fa-plus"></i> Créer un personnage
   </button>
 </div> 

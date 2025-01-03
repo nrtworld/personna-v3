@@ -6,19 +6,25 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { RegisterComponent } from './features/auth/register/register.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { 
     path: 'dashboard', 
     loadComponent: () => import('./features/dashboard/dashboard.component')
-      .then(m => m.DashboardComponent)
+      .then(m => m.DashboardComponent),
+    canActivate: [AuthGuard]
   },
   { 
     path: 'character',
-    loadChildren: () => import('./features/character/character.module.js')
-      .then(m => m.CharacterModule),
-    canActivate: [AuthGuard]
+    children: [
+      {
+        path: 'create',
+        loadComponent: () => import('./features/character/create/character-creation/character-creation.component')
+          .then(m => m.CharacterCreationComponent),
+        canActivate: [AuthGuard]
+      }
+    ]
   },
   { path: '**', redirectTo: '/dashboard' }
 ];

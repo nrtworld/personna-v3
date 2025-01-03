@@ -1,0 +1,33 @@
+<div class="photo-upload">
+  <div class="preview" [class.has-image]="previewUrl">
+    <img *ngIf="previewUrl" [src]="previewUrl" alt="Prévisualisation">
+    <div *ngIf="!previewUrl" class="placeholder">
+      <i class="fas fa-user"></i>
+    </div>
+  </div>
+
+  <div class="upload-controls">
+    <input 
+      type="file" 
+      accept="image/*" 
+      (change)="onFileSelected($event)"
+      [disabled]="isUploading || !characterId"
+      #fileInput
+      class="file-input"
+    >
+    
+    <button 
+      type="button" 
+      class="btn btn-outline-primary"
+      [disabled]="isUploading || !characterId"
+      (click)="fileInput.click()"
+    >
+      <span *ngIf="!isUploading">Choisir une photo</span>
+      <span *ngIf="isUploading">Upload en cours...</span>
+    </button>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger mt-2">
+    {{ error }}
+  </div>
+</div> 

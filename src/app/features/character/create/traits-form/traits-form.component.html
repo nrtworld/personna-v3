@@ -1,0 +1,57 @@
+<div class="traits-form">
+  <div class="selected-traits">
+    <h4>Traits sélectionnés ({{ selectedTraits.length }}/{{ maxTraits }})</h4>
+    <div class="traits-grid">
+      @for (trait of selectedTraits; track trait.id) {
+        <div class="trait-item selected">
+          <div class="trait-header">
+            <h5>{{ trait.name }}</h5>
+            <button 
+              class="btn btn-outline-danger btn-sm"
+              (click)="removeTrait(trait)"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <p class="trait-description">{{ trait.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="available-traits">
+    <h4>Traits disponibles</h4>
+    <div class="search-box">
+      <input 
+        type="text"
+        class="form-control"
+        placeholder="Rechercher un trait..."
+        [(ngModel)]="searchTerm"
+      >
+    </div>
+
+    <div class="traits-grid">
+      @for (trait of filteredTraits; track trait.id) {
+        <div 
+          class="trait-item"
+          [class.selected]="isTraitSelected(trait)"
+          [class.disabled]="!canAddTrait && !isTraitSelected(trait)"
+        >
+          <div class="trait-header">
+            <h5>{{ trait.name }}</h5>
+          </div>
+          <p class="trait-description">{{ trait.description }}</p>
+          <button 
+            class="btn"
+            [class.btn-outline-primary]="!isTraitSelected(trait)"
+            [class.btn-outline-danger]="isTraitSelected(trait)"
+            (click)="toggleTrait(trait)"
+            [disabled]="!canAddTrait && !isTraitSelected(trait)"
+          >
+            {{ isTraitSelected(trait) ? 'Retirer' : 'Ajouter' }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</div> 

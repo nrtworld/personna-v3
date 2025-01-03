@@ -1,0 +1,32 @@
+<div class="masteries-form">
+  <div class="points-info">
+    Points restants: {{ remainingPoints }}
+  </div>
+
+  <div class="masteries-grid">
+    @for (mastery of masteries | keyvalue; track mastery.key) {
+      <div class="mastery-item">
+        <div class="mastery-header">
+          <h4>{{ mastery.key }}</h4>
+        </div>
+        <div class="mastery-controls">
+          <button 
+            class="btn btn-outline-danger"
+            (click)="updateMastery(mastery.key, Math.max(0, mastery.value - 1))"
+            [disabled]="mastery.value <= 0"
+          >
+            -
+          </button>
+          <span class="mastery-value">{{ mastery.value }}</span>
+          <button 
+            class="btn btn-outline-success"
+            (click)="updateMastery(mastery.key, Math.min(maxPointsPerMastery, mastery.value + 1))"
+            [disabled]="remainingPoints <= 0 || mastery.value >= maxPointsPerMastery"
+          >
+            +
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div> 

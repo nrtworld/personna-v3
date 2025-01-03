@@ -1,46 +1,48 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { 
   getAuth, 
-  signInWithEmailAndPassword, 
-  signOut, 
+  signInWithEmailAndPassword,
+  signOut,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
-  Auth,
-  User 
+  User
 } from 'firebase/auth';
-import { getApp } from 'firebase/app';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private auth: Auth;
-  private userSubject: BehaviorSubject<User | null>;
-  public user$: Observable<User | null>;
+  private auth = getAuth();
+  private userSubject = new BehaviorSubject<User | null>(null);
+  user$ = this.userSubject.asObservable();
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-    this.auth = getAuth(getApp());
-    this.userSubject = new BehaviorSubject<User | null>(null);
-    this.user$ = this.userSubject.asObservable();
+  constructor(private router: Router) {
+    // Vérifier l'état initial de l'authentification
+    const currentUser = this.auth.currentUser;
+    this.userSubject.next(currentUser);
 
     onAuthStateChanged(this.auth, (user) => {
+      console.log('Auth state changed:', user?.email);
       this.userSubject.next(user);
     });
   }
 
   async login(email: string, password: string): Promise<void> {
     try {
-      await signInWithEmailAndPassword(this.auth, email, password);
+      console.log('Attempting login...');
+      const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+      console.log('Login successful:', userCredential.user.email);
       
-      // Récupérer l'URL de retour depuis les query params
-      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
-      await this.router.navigate([returnUrl]);
+      // Attendre un court instant pour s'assurer que l'état d'authentification est mis à jour
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      console.log('Navigating to dashboard...');
+      const result = await this.router.navigate(['/dashboard']);
+      console.log('Navigation result:', result);
     } catch (error) {
+      console.error('Login error:', error);
       throw error;
     }
   }
@@ -48,14 +50,18 @@ export class AuthService {
   async logout(): Promise<void> {
     try {
       await signOut(this.auth);
+      this.userSubject.next(null);
       await this.router.navigate(['/login']);
     } catch (error) {
+      console.error('Logout error:', error);
       throw error;
     }
   }
 
   isAuthenticated(): boolean {
-    return this.auth.currentUser !== null;
+    const isAuth = this.auth.currentUser !== null;
+    console.log('isAuthenticated:', isAuth);
+    return isAuth;
   }
 
   getCurrentUser(): User | null {
@@ -64,7 +70,8 @@ export class AuthService {
 
   async register(email: string, password: string): Promise<void> {
     try {
-      await createUserWithEmailAndPassword(this.auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      console.log('Registration successful:', userCredential.user.email);
       await this.router.navigate(['/dashboard']);
     } catch (error: any) {
       if (error.code === 'auth/email-already-in-use') {

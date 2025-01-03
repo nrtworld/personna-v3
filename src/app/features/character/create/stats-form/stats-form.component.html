@@ -1,0 +1,32 @@
+<div class="stats-form">
+  <div class="points-info">
+    Points restants: {{ remainingPoints }}
+  </div>
+
+  <div class="stats-grid">
+    @for (statWithPoints of allocatedStats; track statWithPoints) {
+      <div class="stat-item">
+        <div class="stat-header">
+          <h4>{{ statWithPoints.name }}</h4>
+        </div>
+        <div class="stat-controls">
+          <button 
+            class="btn btn-outline-danger"
+            (click)="decrementStat(statWithPoints)"
+            [disabled]="statWithPoints.points <= 0"
+          >
+            -
+          </button>
+          <span class="stat-value">{{ statWithPoints.points }}</span>
+          <button 
+            class="btn btn-outline-success"
+            (click)="incrementStat(statWithPoints)"
+            [disabled]="remainingPoints <= 0 || statWithPoints.points >= maxPointsPerStat"
+          >
+            +
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div> 
