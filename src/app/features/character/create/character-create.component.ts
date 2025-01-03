@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { InventoryFormComponent } from './inventory-form/inventory-form.component';
 import { InventoryItem } from '../../../models/inventory.model';
 import { getAuth } from 'firebase/auth';
+import { IdentityFormComponent } from './identity-form/identity-form.component';
 
 @Component({
   selector: 'app-character-create',
@@ -14,12 +15,27 @@ import { getAuth } from 'firebase/auth';
     <div class="character-creation">
       <!-- Onglets de navigation -->
       <div class="tabs">
-        <button [class.active]="currentTab === 1" (click)="currentTab = 1">1/7 - Inventaire</button>
+        <button [class.active]="currentTab === 1" (click)="currentTab = 1">1/7 - Identité</button>
+        <button [class.active]="currentTab === 2" (click)="currentTab = 2">2/7 - Inventaire</button>
         <!-- autres onglets... -->
       </div>
 
-      <!-- Contenu de l'onglet Inventaire -->
+      <!-- Ajout du formulaire d'identité -->
       <div *ngIf="currentTab === 1">
+        <app-identity-form
+          [name]="character.name"
+          [age]="character.age"
+          [maxHp]="character.maxHp"
+          [currentHp]="character.currentHp"
+          (save)="onIdentitySave($event)">
+        </app-identity-form>
+        
+        <div class="actions">
+          <button (click)="nextTab()">Suivant</button>
+        </div>
+      </div>
+
+      <div *ngIf="currentTab === 2">
         <app-inventory-form
           [inventory]="character.inventory"
           (inventoryChange)="onInventoryChange($event)">
@@ -33,7 +49,7 @@ import { getAuth } from 'firebase/auth';
     </div>
   `,
   standalone: true,
-  imports: [CommonModule, InventoryFormComponent]
+  imports: [CommonModule, InventoryFormComponent, IdentityFormComponent]
 })
 export class CharacterCreateComponent {
   currentTab = 1;
@@ -45,6 +61,9 @@ export class CharacterCreateComponent {
       maxWeight: 50
     },
     name: '',
+    age: undefined,
+    maxHp: 0,
+    currentHp: 0,
     stats: {},
     masteries: [],
     skills: [],
@@ -112,5 +131,13 @@ export class CharacterCreateComponent {
     if (this.currentTab < 7) {
       this.currentTab++;
     }
+  }
+
+  onIdentitySave(identityData: any): void {
+    this.character = {
+      ...this.character,
+      ...identityData
+    };
+    this.saveCharacter();
   }
 } 

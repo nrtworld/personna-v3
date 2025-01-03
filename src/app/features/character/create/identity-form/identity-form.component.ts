@@ -52,6 +52,12 @@ export class IdentityFormComponent {
   }
 
   onSubmit() {
+    console.log('Form submitted:', {
+      formValue: this.form.value,
+      formValid: this.form.valid,
+      formErrors: this.form.errors
+    });
+    
     if (this.form.valid) {
       this.save.emit(this.form.value);
     }
