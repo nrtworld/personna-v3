@@ -9,6 +9,7 @@ import {
   User
 } from 'firebase/auth';
 import { BehaviorSubject } from 'rxjs';
+import { FirebaseError } from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,6 @@ export class AuthService {
       const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
       console.log('Login successful:', userCredential.user.email);
       
-      // Attendre un court instant pour s'assurer que l'état d'authentification est mis à jour
       await new Promise(resolve => setTimeout(resolve, 100));
       
       console.log('Navigating to dashboard...');
@@ -43,6 +43,20 @@ export class AuthService {
       console.log('Navigation result:', result);
     } catch (error) {
       console.error('Login error:', error);
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case 'auth/invalid-credential':
+            throw new Error('Email ou mot de passe incorrect');
+          case 'auth/user-disabled':
+            throw new Error('Ce compte a été désactivé');
+          case 'auth/user-not-found':
+            throw new Error('Aucun compte ne correspond à cet email');
+          case 'auth/wrong-password':
+            throw new Error('Mot de passe incorrect');
+          default:
+            throw new Error('Erreur lors de la connexion');
+        }
+      }
       throw error;
     }
   }

@@ -62,7 +62,11 @@ export class LoginComponent {
         this.error = '';
       } catch (error) {
         console.error('Login failed:', error);
-        this.error = 'Échec de la connexion. Veuillez vérifier vos identifiants.';
+        if (error instanceof Error) {
+          this.error = error.message;
+        } else {
+          this.error = 'Une erreur inattendue est survenue';
+        }
       }
     }
   }

@@ -92,21 +92,24 @@ describe('InventoryFormComponent', () => {
   describe('Dice Management', () => {
     it('should add new dice', () => {
       const newDice = {
-        sides: 20,
+        name: 'D20',
+        faces: 20,
         quantity: 1,
+        modifier: 0
       };
 
       component.diceForm.patchValue(newDice);
       component.addDice();
 
       expect(component.inventory.dices.length).toBe(1);
-    
+      expect(component.inventory.dices[0].faces).toBe(20);
     });
 
     it('should edit existing dice', () => {
       const dice: Dice = {
         id: '123',
-        sides: 6,
+        name: 'D6',
+        faces: 6,
         quantity: 1
       };
       component.inventory.dices = [dice];
@@ -122,7 +125,8 @@ describe('InventoryFormComponent', () => {
     it('should remove dice', () => {
       const dice: Dice = {
         id: '123',
-        sides: 6,
+        name: 'D6',
+        faces: 6,
         quantity: 1
       };
       component.inventory.dices = [dice];

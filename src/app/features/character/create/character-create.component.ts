@@ -5,6 +5,8 @@ import { CharacterService } from '../services/character.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { InventoryFormComponent } from './inventory-form/inventory-form.component';
+import { InventoryItem } from '../../../models/inventory.model';
+import { getAuth } from 'firebase/auth';
 
 @Component({
   selector: 'app-character-create',
@@ -67,6 +69,20 @@ export class CharacterCreateComponent {
   }
 
   saveCharacter(): void {
+    console.log('Tentative de sauvegarde du personnage');
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
+      this.snackBar.open('Veuillez vous connecter pour sauvegarder le personnage', 'Fermer', {
+        duration: 5000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+
     this.characterService.saveCharacter(this.character).subscribe({
       next: () => {
         this.snackBar.open('Personnage sauvegardé avec succès', 'Fermer', {
@@ -74,7 +90,6 @@ export class CharacterCreateComponent {
           horizontalPosition: 'end',
           verticalPosition: 'top'
         });
-        // Rediriger vers la liste des personnages après la sauvegarde
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {

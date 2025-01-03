@@ -1,3 +1,5 @@
+import { InventoryItem, Dice } from './inventory.model';
+
 export interface User {
   uid: string;
   email: string;
@@ -26,7 +28,12 @@ export interface Character {
   masteries: Mastery[];
   skills: Skill[];
   traits: CharacterTrait[];
-  inventory: InventoryState;
+  inventory: {
+    items: InventoryItem[];
+    dices: Dice[];
+    currentWeight: number;
+    maxWeight?: number;
+  };
   notes: Note[];
 }
 
@@ -60,12 +67,6 @@ export interface Skill {
 export interface CharacterTrait {
   name: string;
   description: string;
-}
-
-export interface InventoryState {
-  items: any[];
-  dices: any[];
-  currentWeight: number;
 }
 
 export interface Note {
