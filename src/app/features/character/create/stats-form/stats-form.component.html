@@ -3,26 +3,55 @@
     Points restants: {{ remainingPoints }}
   </div>
 
+  <div class="stats-header">
+    <h3>Statistiques de base</h3>
+    <div class="stats-add-form">
+      <select 
+        class="form-select" 
+        [(ngModel)]="selectedStatToAdd"
+        [disabled]="getAvailableNewStats().length === 0">
+        <option value="">Choisir une statistique...</option>
+        @for (stat of getAvailableNewStats(); track stat) {
+          <option [ngValue]="stat">{{ stat.name }}</option>
+        }
+      </select>
+      <button 
+        class="btn btn-primary" 
+        (click)="addSelectedStat()"
+        [disabled]="!selectedStatToAdd">
+        Ajouter
+      </button>
+    </div>
+  </div>
+
   <div class="stats-grid">
-    @for (statWithPoints of allocatedStats; track statWithPoints) {
+    @for (stat of allocatedStats; track stat) {
       <div class="stat-item">
         <div class="stat-header">
-          <h4>{{ statWithPoints.name }}</h4>
+          <h4>{{ stat.name }}</h4>
+          <button 
+            class="btn btn-link info-button"
+            [title]="stat.description">
+            <i class="fas fa-info-circle"></i>
+          </button>
+          <button 
+            class="btn btn-link remove-button"
+            (click)="removeStat(stat)">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
         <div class="stat-controls">
           <button 
             class="btn btn-outline-danger"
-            (click)="decrementStat(statWithPoints)"
-            [disabled]="statWithPoints.points <= 0"
-          >
+            (click)="decrementStat(stat)"
+            [disabled]="stat.points <= 0">
             -
           </button>
-          <span class="stat-value">{{ statWithPoints.points }}</span>
+          <span class="stat-value">{{ stat.points }}</span>
           <button 
             class="btn btn-outline-success"
-            (click)="incrementStat(statWithPoints)"
-            [disabled]="remainingPoints <= 0 || statWithPoints.points >= maxPointsPerStat"
-          >
+            (click)="incrementStat(stat)"
+            [disabled]="remainingPoints <= 0 || stat.points >= maxPointsPerStat">
             +
           </button>
         </div>
